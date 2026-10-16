@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meus hábitos</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F0F9;--surface:#fff;--ink:#1D1A3B;--mute:#6C6889;--line:#E1DDF0;--acc:#5A47E0;--acc-soft:#E6E2FB;--on-acc:#fff;--ok:#12A06F;--warm:#F28A3C;--neg:#D4476A;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14122A;--surface:#1E1B3A;--ink:#EEEBFF;--mute:#9C97C4;--line:#322E58;--acc:#8B7CFF;--acc-soft:#2D2860;--on-acc:#14122A;--ok:#2BC38E;--warm:#FFA24F;--neg:#FF6B8E;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14122A;--surface:#1E1B3A;--ink:#EEEBFF;--mute:#9C97C4;--line:#322E58;--acc:#8B7CFF;--acc-soft:#2D2860;--on-acc:#14122A;--ok:#2BC38E;--warm:#FFA24F;--neg:#FF6B8E;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.4 Figtree,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+#app{max-width:560px;margin:0 auto;padding:18px 16px 40px}
+h1,h2,.big{font-family:"Bricolage Grotesque",Figtree,sans-serif;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.top h1{font-size:34px;font-weight:800;line-height:1.05}
+.sub{color:var(--mute);font-size:15px;margin-top:2px}
+.nav{display:flex;gap:6px}
+.ib{width:40px;height:40px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:20px}
+.pill{padding:0 14px;width:auto;font-size:14px;font-weight:600;color:var(--acc)}
+.tabs{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:4px;margin:16px 0}
+.tabs button{flex:1;padding:9px 0;border-radius:10px;font-weight:600;color:var(--mute)}
+.tabs button.on{background:var(--acc);color:var(--on-acc)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.wd{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;border-radius:14px;background:var(--surface);border:1px solid var(--line);--in:var(--surface)}
+.wd small{color:var(--mute);font-size:12px}
+.wd b{font-size:16px}
+.wd.on{background:var(--acc-soft);border-color:var(--acc);--in:var(--acc-soft)}
+.wd.td b{color:var(--acc)}
+.mini{width:24px;height:24px;border-radius:50%;background:conic-gradient(var(--ok) var(--p,0%),var(--line) 0);display:grid;place-items:center}
+.mini::after{content:"";width:14px;height:14px;border-radius:50%;background:var(--in)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px}
+.hero{display:flex;align-items:center;gap:18px}
+.ring{position:relative;width:116px;height:116px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .big{position:absolute;inset:0;display:grid;place-items:center;font-size:30px;font-weight:800}
+.hero h2{font-size:20px}
+.chip{display:inline-block;margin-top:8px;padding:4px 10px;border-radius:99px;background:var(--acc-soft);font-size:13px;font-weight:600}
+.habit{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;margin-top:10px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.habit .em{font-size:24px;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--bg)}
+.habit .nm{flex:1;font-weight:600}
+.habit .ck{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;color:transparent;font-weight:800}
+.habit.done{border-color:var(--ok)}
+.habit.done .nm{color:var(--mute);text-decoration:line-through}
+.habit.done .ck{background:var(--ok);border-color:var(--ok);color:#fff}
+.habit:disabled{opacity:.55;cursor:default}
+.empty{text-align:center;padding:26px 8px;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.chips button,.sel{padding:8px 12px;border-radius:99px;background:var(--bg);border:1px solid var(--line);font-weight:600;font-size:14px;color:var(--ink)}
+.sel.on{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.delta{font-weight:600}
+.up{color:var(--ok)}.down{color:var(--neg)}.flat{color:var(--mute)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:150px;margin-top:14px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px;font-size:12px;color:var(--mute)}
+.bar i{display:block;width:100%;border-radius:8px 8px 4px 4px;background:var(--acc-soft);min-height:4px}
+.bar.cur i{background:var(--acc)}
+.bar b{color:var(--ink);font-size:12px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.dots{display:flex;gap:4px;margin-left:auto}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.y{background:var(--ok)}.dot.n{background:var(--neg);opacity:.55}.dot.x{background:transparent;border:1px dashed var(--line)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:12px}
+.cal small{text-align:center;color:var(--mute);font-size:12px}
+.cell{aspect-ratio:1;border-radius:10px;background:var(--bg);font-size:13px;font-weight:600;display:grid;place-items:center}
+.cell.td{outline:2px solid var(--acc)}
+.cell.fu{opacity:.4}
+.sec{display:flex;justify-content:space-between;align-items:center}
+.sec h2{font-size:19px;text-transform:none}
+input[type=text]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;margin-top:10px}
+.emo{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.emo button{width:42px;height:42px;border-radius:12px;font-size:22px;background:var(--bg);border:1px solid var(--line)}
+.emo button.on{border-color:var(--acc);background:var(--acc-soft)}
+.cta{width:100%;margin-top:14px;padding:13px;border-radius:14px;background:var(--acc);color:var(--on-acc);font-weight:700}
+.err{color:var(--neg);font-size:14px;margin-top:8px}
+.del{color:var(--neg);font-size:14px;font-weight:600;padding:6px 8px}
+.mute{color:var(--mute);font-size:14px}
+@media (prefers-reduced-motion:no-preference){.ring circle:last-child{transition:stroke-dashoffset .4s}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const WD=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],WF=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MES=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const EMO=['💧','📚','🏃','🧘','😴','🥗','✍️','🪥'];
+const SUG=[['💧','Beber 2 L de água'],['📚','Ler 10 minutos'],['🏃','Exercício físico'],['🧘','Meditar']];
+const p2=n=>String(n).padStart(2,'0');
+const key=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+const parse=k=>{const[a,b,c]=k.split('-').map(Number);return new Date(a,b-1,c)};
+const add=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const monday=d=>add(d,-((d.getDay()+6)%7));
+const pct=p=>Math.round(p*100)+'%';
+let S={habits:[],log:{}};
+try{const r=localStorage.getItem('habitos-v1');if(r)S=JSON.parse(r)}catch(e){}
+const save=()=>{try{localStorage.setItem('habitos-v1',JSON.stringify(S))}catch(e){}};
+const today=new Date();today.setHours(0,0,0,0);const TK=key(today);
+let sel=new Date(today),tab='hoje',mon=new Date(today.getFullYear(),today.getMonth(),1);
+let draft={name:'',emoji:EMO[0],days:[0,1,2,3,4,5,6],err:'',del:''};
+
+const sched=(h,k)=>h.days.includes(parse(k).getDay())&&h.since<=k;
+function dayStats(k){
+  const hs=S.habits.filter(h=>sched(h,k)),L=S.log[k]||[];
+  const d=hs.filter(h=>L.includes(h.id)).length;
+  return{hs,s:hs.length,d,p:hs.length?d/hs.length:null};
+}
+function weekStats(m,habit){
+  let s=0,d=0;
+  for(let i=0;i<7;i++){const k=key(add(m,i));if(k>TK)break;
+    if(habit){if(sched(habit,k)){s++;if((S.log[k]||[]).includes(habit.id))d++}}
+    else{const t=dayStats(k);s+=t.s;d+=t.d}}
+  return{s,d,p:s?d/s:null};
+}
+function streak(){
+  let n=0,d=new Date(today);
+  for(let i=0;i<400;i++){
+    const k=key(d),t=dayStats(k);
+    if(t.s>0){if(t.p===1)n++;else if(k!==TK)break}
+    d=add(d,-1);
+  }
+  return n;
+}
+function deltaTxt(a,b){
+  if(a==null||b==null)return'<span class="delta flat">Sem semana anterior para comparar</span>';
+  const x=Math.round((a-b)*100);
+  if(x>0)return`<span class="delta up">▲ ${x} pontos acima da semana passada</span>`;
+  if(x<0)return`<span class="delta down">▼ ${-x} pontos abaixo da semana passada</span>`;
+  return'<span class="delta flat">= Igual à semana passada</span>';
+}
+function arrow(a,b){
+  if(a==null||b==null)return'';
+  const x=Math.round((a-b)*100);
+  return x>0?`<span class="up">▲</span>`:x<0?`<span class="down">▼</span>`:`<span class="flat">=</span>`;
+}
+
+function vHoje(){
+  const k=key(sel),st=dayStats(k),fut=k>TK;
+  const diff=Math.round((sel-today)/864e5);
+  const lab=diff===0?'Hoje':diff===-1?'Ontem':diff===1?'Amanhã':WF[sel.getDay()];
+  const m0=monday(sel);
+  let week='';
+  for(let i=0;i<7;i++){
+    const d=add(m0,i),dk=key(d),t=dayStats(dk);
+    week+=`<button class="wd ${dk===k?'on':''} ${dk===TK?'td':''}" data-act="pick" data-k="${dk}" aria-label="${WF[d.getDay()]} ${d.getDate()}"><small>${WD[d.getDay()]}</small><b>${d.getDate()}</b><span class="mini" style="--p:${dk>TK||t.p==null?0:t.p*100}%"></span></button>`;
+  }
+  const C=2*Math.PI*52,p=st.p||0;
+  const sk=streak();
+  let list='';
+  if(!S.habits.length){
+    list=`<div class="card empty"><b style="color:var(--ink)">Comece com um hábito</b><div>Toque em uma sugestão ou crie o seu na aba Hábitos.</div><div class="chips">${SUG.map((s,i)=>`<button data-act="sug" data-i="${i}">${s[0]} ${s[1]}</button>`).join('')}</div></div>`;
+  }else if(!st.s){
+    list=`<div class="card empty">Nenhum hábito programado para este dia.</div>`;
+  }else{
+    const L=S.log[k]||[];
+    list=st.hs.map(h=>`<button class="habit ${L.includes(h.id)?'done':''}" data-act="toggle" data-id="${h.id}" ${fut?'disabled':''}><span class="em">${h.emoji}</span><span class="nm">${esc(h.name)}</span><span class="ck">✓</span></button>`).join('');
+    if(fut)list+='<p class="mute" style="text-align:center">Dias futuros ficam disponíveis quando chegarem.</p>';
+  }
+  return`<div class="week">${week}</div>
+  <div class="card hero"><div class="ring"><svg width="116" height="116" viewBox="0 0 116 116"><circle cx="58" cy="58" r="52" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="58" cy="58" r="52" fill="none" stroke="${p===1?'var(--ok)':'var(--acc)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}"/></svg><div class="big">${st.s?pct(p):'–'}</div></div>
+  <div><h2>${st.s?`${st.d} de ${st.s} concluídos`:'Dia livre'}</h2><div class="mute">${lab}, ${sel.getDate()} de ${MES[sel.getMonth()]}</div>${sk?`<span class="chip">🔥 ${sk} ${sk===1?'dia':'dias'} seguidos</span>`:''}</div></div>
+  ${list}`;
+}
+
+function vHist(){
+  const m0=monday(today),cur=weekStats(m0),prv=weekStats(add(m0,-7));
+  let bars='';
+  for(let i=7;i>=0;i--){
+    const m=add(m0,-7*i),w=weekStats(m);
+    bars+=`<div class="bar ${i===0?'cur':''}"><b>${w.p==null?'–':pct(w.p)}</b><i style="height:${w.p==null?0:Math.max(w.p*100,3)}%"></i><span>${p2(m.getDate())}/${p2(m.getMonth()+1)}</span></div>`;
+  }
+  const rows=S.habits.map(h=>{
+    const w=weekStats(m0,h),pw=weekStats(add(m0,-7),h);
+    let dots='';
+    for(let i=0;i<7;i++){const k=key(add(m0,i));
+      const c=!sched(h,k)||k>TK?'x':(S.log[k]||[]).includes(h.id)?'y':'n';dots+=`<span class="dot ${c}"></span>`}
+    return`<div class="row"><span>${h.emoji}</span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:36%">${esc(h.name)}</span><span class="dots">${dots}</span><span class="mute" style="min-width:52px;text-align:right">${w.d}/${w.s} ${arrow(w.p,pw.p)}</span></div>`;
+  }).join('')||'<div class="mute">Cadastre hábitos para ver o detalhe semanal.</div>';
+  // mês
+  const first=new Date(mon.getFullYear(),mon.getMonth(),1),n=new Date(mon.getFullYear(),mon.getMonth()+1,0).getDate();
+  let cells='',sum=0,cnt=0,perfect=0;
+  for(let i=0;i<(first.getDay()+6)%7;i++)cells+='<span></span>';
+  for(let d=1;d<=n;d++){
+    const dt=new Date(mon.getFullYear(),mon.getMonth(),d),k=key(dt),t=dayStats(k),fu=k>TK;
+    if(!fu&&t.p!=null){sum+=t.p;cnt++;if(t.p===1)perfect++}
+    const bg=!fu&&t.p!=null?`background:color-mix(in srgb,var(--ok) ${Math.round(t.p*100)}%,var(--bg))`:'';
+    cells+=`<button class="cell ${k===TK?'td':''} ${fu?'fu':''}" style="${bg}" data-act="goday" data-k="${k}" ${fu?'disabled':''}>${d}</button>`;
+  }
+  return`<div class="card" style="margin-top:0"><div class="sec"><h2>Esta semana</h2><span class="big" style="font-size:28px;font-weight:800">${cur.p==null?'–':pct(cur.p)}</span></div><div style="margin-top:4px">${deltaTxt(cur.p,prv.p)}</div>
+  <div class="bars">${bars}</div><div class="mute" style="margin-top:8px">Conclusão média por semana, últimas 8 semanas.</div></div>
+  <div class="card"><div class="sec"><h2>Hábito por hábito</h2><span class="mute">Seg → Dom</span></div><div style="margin-top:8px">${rows}</div></div>
+  <div class="card"><div class="sec"><button class="ib" data-act="mprev" aria-label="Mês anterior">‹</button><h2>${MES[mon.getMonth()]} ${mon.getFullYear()}</h2><button class="ib" data-act="mnext" aria-label="Próximo mês">›</button></div>
+  <div class="mute" style="margin-top:8px;text-align:center">${cnt?`Média do mês ${pct(sum/cnt)} · ${perfect} ${perfect===1?'dia perfeito':'dias perfeitos'}`:'Sem registros neste mês'}</div>
+  <div class="cal">${['S','T','Q','Q','S','S','D'].map(x=>`<small>${x}</small>`).join('')}${cells}</div>
+  <div class="mute" style="margin-top:10px;text-align:center">Quanto mais verde, mais hábitos concluídos. Toque num dia para editar.</div></div>`;
+}
+
+function vHab(){
+  const list=S.habits.map(h=>{
+    const ds=h.days.length===7?'Todos os dias':h.days.map(d=>WD[d]).join(', ');
+    return`<div class="row"><span style="font-size:24px">${h.emoji}</span><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(h.name)}</div><div class="mute">${ds}</div></div><button class="del" data-act="del" data-id="${h.id}">${draft.del===h.id?'Confirmar exclusão':'Excluir'}</button></div>`;
+  }).join('')||'<div class="mute">Nenhum hábito ainda.</div>';
+  return`<div class="card" style="margin-top:0"><h2>Novo hábito</h2>
+  <input type="text" id="nm" maxlength="40" placeholder="Ex.: Caminhar 30 minutos" value="${esc(draft.name)}" aria-label="Nome do hábito">
+  <div class="emo">${EMO.map(e=>`<button class="${e===draft.emoji?'on':''}" data-act="emoji" data-e="${e}">${e}</button>`).join('')}</div>
+  <div class="mute" style="margin-top:12px">Dias da semana</div>
+  <div class="chips" style="justify-content:flex-start;margin-top:8px">${[1,2,3,4,5,6,0].map(d=>`<button class="sel ${draft.days.includes(d)?'on':''}" data-act="wd" data-d="${d}">${WD[d]}</button>`).join('')}</div>
+  ${draft.err?`<div class="err">${draft.err}</div>`:''}
+  <button class="cta" data-act="addh">Adicionar hábito</button></div>
+  <div class="card"><h2>Seus hábitos</h2><div style="margin-top:8px">${list}</div></div>`;
+}
+
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function render(){
+  const diff=Math.round((sel-today)/864e5);
+  const lab=diff===0?'Hoje':diff===-1?'Ontem':diff===1?'Amanhã':WF[sel.getDay()];
+  const head=tab==='hoje'
+    ?`<div class="top"><div><h1>${lab}</h1><div class="sub">${WF[sel.getDay()]}, ${sel.getDate()} de ${MES[sel.getMonth()]}</div></div><div class="nav"><button class="ib" data-act="prev" aria-label="Dia anterior">‹</button>${diff?'<button class="ib pill" data-act="today">Hoje</button>':''}<button class="ib" data-act="next" aria-label="Próximo dia">›</button></div></div>`
+    :`<div class="top"><div><h1>${tab==='hist'?'Histórico':'Hábitos'}</h1><div class="sub">${tab==='hist'?'Como suas semanas e meses estão indo':'Crie e organize sua rotina'}</div></div></div>`;
+  const tabs=`<div class="tabs" role="tablist">${[['hoje','Hoje'],['hist','Histórico'],['hab','Hábitos']].map(t=>`<button class="${tab===t[0]?'on':''}" data-act="tab" data-t="${t[0]}">${t[1]}</button>`).join('')}</div>`;
+  $app.innerHTML=head+tabs+(tab==='hoje'?vHoje():tab==='hist'?vHist():vHab());
+}
+const $app=document.getElementById('app');
+
+document.addEventListener('input',e=>{if(e.target.id==='nm')draft.name=e.target.value});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='nm')act('addh',{})});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)act(b.dataset.act,b.dataset)});
+
+function act(a,d){
+  const k=key(sel);
+  if(a==='prev')sel=add(sel,-1);
+  else if(a==='next')sel=add(sel,1);
+  else if(a==='today')sel=new Date(today);
+  else if(a==='pick')sel=parse(d.k);
+  else if(a==='tab')tab=d.t;
+  else if(a==='goday'){sel=parse(d.k);tab='hoje'}
+  else if(a==='mprev')mon=new Date(mon.getFullYear(),mon.getMonth()-1,1);
+  else if(a==='mnext')mon=new Date(mon.getFullYear(),mon.getMonth()+1,1);
+  else if(a==='toggle'){
+    if(k>TK)return;
+    const L=S.log[k]||(S.log[k]=[]),i=L.indexOf(d.id);
+    i>=0?L.splice(i,1):L.push(d.id);save();
+  }
+  else if(a==='sug'){const s=SUG[+d.i];newHabit(s[1],s[0],[0,1,2,3,4,5,6])}
+  else if(a==='emoji')draft.emoji=d.e;
+  else if(a==='wd'){const n=+d.d,i=draft.days.indexOf(n);i>=0?draft.days.splice(i,1):draft.days.push(n)}
+  else if(a==='addh'){
+    const nm=draft.name.trim();
+    if(!nm)draft.err='Dê um nome ao hábito.';
+    else if(!draft.days.length)draft.err='Escolha ao menos um dia da semana.';
+    else{newHabit(nm,draft.emoji,draft.days.slice().sort());draft.name='';draft.err=''}
+  }
+  else if(a==='del'){
+    if(draft.del===d.id){S.habits=S.habits.filter(h=>h.id!==d.id);draft.del='';save()}
+    else draft.del=d.id;
+  }
+  render();
+}
+function newHabit(name,emoji,days){
+  S.habits.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),name,emoji,days,since:TK});save();
+}
+render();
+</script>
+</body>
+</html>
